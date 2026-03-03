@@ -1,64 +1,27 @@
-import java.util.*;
+# Conjunto de palavras reservadas
+RESERVADAS = {"if", "else", "while", "for", "return",
+              "int", "System", "out", "print",
+              "public", "class"}
 
-public class AnalisadorCodigo {
+# Lista de palavras extraídas de um código-fonte
+codigo_fonte = [
+    "public", "class", "Main", "int", "contador",
+    "if", "contador", "return", "resultado",
+    "print", "System", "out", "while", "variavel"
+]
 
-    public static void main(String[] args) {
+# Convertendo a lista para conjunto
+palavras_codigo = set(codigo_fonte)
 
-        String codigo = """
-        public class StarRectangle {
-        public void printRectangle(int n) {
-        for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-        System.out.print(" * ");
-        }
-        System.out.println();
-        }
-        }
-        public void printBottonLeftTriangle(int n) {
-        for (int i = 0; i < n; i++) {
-        for (int j = 0; j <= i; j++) {
-        System.out.print(" * ");
-        }
-        System.out.println();
-        }
-        }
-        public void printTopRightTriangle(int n) {
-        for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-        if (j < i)
-        System.out.print(" ");
-        else
-        System.out.print(" * ");
-        }
-        System.out.println();
-        }
-        }
-        }
-        """;
+# Interseção → palavras reservadas presentes no código
+reservadas_encontradas = palavras_codigo.intersection(RESERVADAS)
 
-        Set<String> reservadas = new HashSet<>(Arrays.asList(
-                "if", "else", "while", "for", "return",
-                "int", "System", "out", "print",
-                "public", "class"
-        ));
+# Diferença → possíveis identificadores
+identificadores = palavras_codigo.difference(RESERVADAS)
 
-        String[] palavrasArray = codigo.split("[^a-zA-Z]+");
+# Exibindo resultados
+print("Palavras reservadas encontradas:")
+print(reservadas_encontradas)
 
-        Set<String> palavrasCodigo = new HashSet<>();
-
-        for (String p : palavrasArray) {
-            if (!p.isEmpty()) {
-                palavrasCodigo.add(p);
-            }
-        }
-
-        Set<String> reservadasPresentes = new HashSet<>(palavrasCodigo);
-        reservadasPresentes.retainAll(reservadas);
-
-        Set<String> identificadores = new HashSet<>(palavrasCodigo);
-        identificadores.removeAll(reservadas);
-
-        System.out.println(reservadasPresentes);
-        System.out.println(identificadores);
-    }
-}
+print("\nPossíveis identificadores:")
+print(identificadores)
